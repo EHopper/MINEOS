@@ -1,0 +1,4 @@
+#!\bin\bash
+
+export MINEOSBIN=$(pwd)/bin
+export MINEOSLIB=$(pwd)/lib

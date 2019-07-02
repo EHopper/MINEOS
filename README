@@ -1,0 +1,98 @@
+This directory contains all the tools one should need to compile and run the MINEOS
+program, including MATLAB driver scripts. MINEOS is a fortran-based code, so you will
+have to compile it on any computer on which you plan to run the code. The compilation
+makes the executables that do the calculations. In this file, we provide a step-by-step
+guide to compiling the code. 
+
+In this top-level directory (where you are reading this README) you should see the
+following directories:
+> src    Contains all the source files to compile the program
+> bin    Contains the executables (it may be empty at the beginning, if you've not
+         compiled anything)
+> lib    Contains the libraries (it may be empty at the beginning, if you've not made the
+         libraries yet). 
+> test   Contains a test example with output files, phase velocities, and kernels so you 
+         can check you've got things working properly.
+         
+Note that if you prefer, you do not have to create executables and libraries in these two
+local directories, you may have system-wide bin and lib directories that you prefer to
+have everything in - that's fine, just change the "MINEOSLIB" and "MINEOSLIB" variables in
+the make scripts - see below.
+
+=================================  Compiling MINEOS  ===================================
+Before trying to compile, make sure you have fortran compilers gfortran and g77. These are
+provided (on macs) as part of the gcc package, which you can obtain by installing the
+Command Line Tools
+- see https://www.mkyong.com/mac/how-to-install-gcc-compiler-on-mac-os-x/
+
+The other thing to be aware of when you compile is that the "MINEOSLIB" and "MINEOSLIB"
+environment variables are correctly and consistently set in all of the make files. These
+variables respectively tell the compiler the directory in which to make any libraries (and
+then later where to look for those libraries) and the directory in which to put the
+executables. Change these in the MINEOS_paths file.
+
+To make things easier, we have assembled all the compilation scripts in the MAKEALL.bash file. Simply run this file from this directory (type "./MAKEALL.bash" in your command line). By looking carefully at this script, and exploring the src folder and its subfolders, you should be able to understand how each of the many executables and libraries that constitute the whole MINEOS package are compiled. 
+
+=================================  Using MINEOS  ===================================
+
+Here is an example workflow (also see tst.exe in the test folder):
+
+1. Make model card file
+	format:  L1:      model_name
+             L2:      ifanis,ref_period,ifdeck(=1)
+             L3:      N,N_ic,N_oc  (number of nodes, then of inner and outer cores
+             L4-N:  R,RHO,VPV,VSV,QKAPPA,QSHEAR,VPH,VSH,ETA (F8.0,3F9.2,2F9.1,2F9.2,F9.5)
+2. Make sure you have the mode file (specifying parms for mineos) and a Qmodel file (which can be ignored, but needs to be there)
+3. Run mineos_nohang - this does the actual normal mode summation and writes out a binary file that is used to calculate phase velocities
+    > card_file_name (input)
+    > output_file1_name (to be output)
+    > eigenvalues_file_name (to be output)
+    > mode_file_name (input)
+4. Run mineos_q - this calculates phase and group velocities for all the modes you just asked for…
+    > Qmodel_file (input, contains q model [optionally ignores this and uses Qs in the cardfile])
+    > phV_file_name (to be output, has phase and group velocities for each mode order)
+    > eigenvalues_file_name (input, calculated above)
+    > [Y/N] on re-compute physical dispersion
+5. Read the phV_file_name for the phase velocities as a function of angular frequency
+========= STOP HERE IF ALL YOU WANT IS SW VELOCITIES AND YOU DON'T CARE ABOUT THE KERNELS
+6. Run mineos_strip
+    > strip_file_name (to be output - stripped mode file)
+    > eigenvalues_file_name (to be output)
+7. Run mineos_table
+    > table_file_name (to be output)
+    > max. number of knots (default is “40000”_
+    > frequencies (min max, in mHz, default is “0 200.1") 
+    > angular orders to do (default is “0 3000")
+    > phV_file_name (input, calculated above)
+    > strip_file_name (input, calculated above)
+8. Run plot_wk to create branch file needed for frechet derivatives
+        * to create branch file needed for frechet derivatives:
+        * second line says stop searching (or could add more parameters to search)
+        * 3rd line gives frequency range to search in (mHz)
+    > .table file
+    * takes some other obscure commands
+    * makes .table_hdr and .table_hdr.branch file
+====== HERE THINGS DIVERGE BETWEEN PHASE AND GROUP VELOCITIES
+-----For phase velocities:
+9ph. Run frechet_cv to make cvfrechet kernels binary
+    > Qmodel_file (input, contains q model)
+    > .table_hdr.branch file
+    > eigenvalues_file_name (input, calculated above)
+    * makes .cvfrechet file
+-----For group velocities:
+9gr_a. Run frechet to make frechet kernels binary
+    > Qmodel_file (input, contains q model)
+    > .table_hdr.branch file
+    > eigenvalues_file_name (input, calculated above)
+    * makes .frechet  file
+9gr_b. Run frechet_gv to make gvfrechet kernels binary
+    > frechet_file  (input, calculated in 9gr_a)
+    > mode_branch (use 0 for fundamental)
+    > gvfrechet_file (to be output)
+-----For both phase and group velocities:
+10. Run draw_frechet_gv to actually write the kernels out as a function of depth.
+    > ?vfrechet_file (input, calculated above - use gvfrechet or cvfrechet files, not the 
+    	plain old frechet output calculated as an intermediate for the group velocities)
+    > kernel_file (to be output)    
+    > period (must be integer)
+    

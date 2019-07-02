@@ -1,0 +1,7 @@
+subroutine timeph added on 1/97 by JM,
+timeph is actually the same as subroutine time, but
+the name time is an intrinsic function in HP fortran
+so the name had to be changed.  Both subroutines are
+currently left in the library, but as coded are recompilled
+on the HP's it will be neccessary to switch their call statements
+to call timeph to access the subroutine.
