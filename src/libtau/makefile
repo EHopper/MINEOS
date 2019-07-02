@@ -6,6 +6,8 @@ LLIBS = -ltau
 ARFLAGS= rcv
 
 libtau.a:	${OBJTAU}
+		gfortran $(FFLAGS) -c libtau.f
+		gfortran $(FFLAGS) -c libsun.f
 		ar ${ARFLAGS} $(MINEOSLIB)/libtau.a ${OBJTAU}
 		ranlib $(MINEOSLIB)/libtau.a
 setbrn:		setbrn.o
