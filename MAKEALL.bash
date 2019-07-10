@@ -34,17 +34,20 @@ cd ..
 
 cd mineos
 for imk in MAKE*
-do 
+do
 	# make with an -i flag to ignore errors
 	echo $imk
 	rm *.o
 	make -i -f $imk
+	rm *.o
 done
 cd ..
 
 #plot_wk
 cd plot_wk
-make -f MAKE_plot_wk.mk 
+rm *.o
+make -f MAKE_plot_wk.mk
+rm *.o
 cd ..
 
 # cd back to parent directory
