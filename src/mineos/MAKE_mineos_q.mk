@@ -1,9 +1,9 @@
 FFLAGS=-w -O1 -ffixed-line-length-none -fno-range-check
 #LFLAGS= $(MYLFLAGS)
-LFLAGS= 
-PROG= mineos_q
+LFLAGS=
+PROG= mineos_qcorrectphv
 SUBS=
-OBJS= $(PROG).anis.o $(SUBS:.f=.o)
+OBJS= $(PROG).o $(SUBS:.f=.o)
 
 
 .f.o:
@@ -11,10 +11,9 @@ OBJS= $(PROG).anis.o $(SUBS:.f=.o)
 
 #----------------------------------------------------------------------------------
 
-$(PROG): $(OBJS) 
+$(PROG): $(OBJS)
 	gfortran $(FFLAGS) $(LFLAGS) -o $(MINEOSBIN)/$@ $(OBJS)
 
 # check object files for dependency on .h files
 $(OBJS): parameter.h
 	gfortran $(FFLAGS) -c $*.f
-
