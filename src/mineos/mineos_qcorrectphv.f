@@ -79,7 +79,7 @@ c
       data comp /'S','T','S'/
       data pi/3.1415926535d0/
       data rn/6371000.d0/
-      data old /maxold*0.0,maxold*0.0/
+      data old /maxold*0.0/
       data lq /.false./
       data ifirst /0/
       data qflag /999999.0/

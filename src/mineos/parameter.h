@@ -25,21 +25,21 @@ c
       parameter (maxbyte3 = nknot3+5)
       parameter (maxbyte4 = nknot4+5)
       parameter (maxbyte5 = nknot5+5)
-      parameter (maxbyte = nknot6+5) 
+      parameter (maxbyte = nknot6+5)
 c
 c     other parameters for mineos programs & idagrn
 c
 c      parameter (nbranch = 280)
       parameter (nbranch = 2000)
       parameter (nbranch2 = 2*nbranch)
-      parameter (maxn = 2000)
-      parameter (maxl = 3500)
-      parameter (maxll = 7000)
+      parameter (maxn = 4000)
+      parameter (maxl = 50000)
+      parameter (maxll = 50000)
       parameter (maxold = maxn*maxl)
       parameter (maxmodes = 100000)
       parameter (maxmodes1 = 100001)
 c
-c     parameters for idagrn 
+c     parameters for idagrn
 c
       parameter (maxtime = 7210)
       parameter (maxstat = 100)
@@ -55,11 +55,11 @@ c
       parameter (maxdh = 50000)
       parameter (rfrctn = 10.)
 c
-c     6 + 1000*3 + 20 
+c     6 + 1000*3 + 20
 c    yielding a desire to make the arrays smaller:
 c     6 + 800*3 + 20
 c    but need to consider anisotropy
-c     6 + 800*6 + 20 
+c     6 + 800*6 + 20
 c
       parameter (mbuf = 6+6*nknot_s)
       parameter (mfrechet = mbuf + maxdisc)
@@ -73,9 +73,8 @@ c  nknot = number of knots in model
 c  nknot3 = 3*number of knots
 c  nknot6 = 6*number of knots
 c  and so forth
-c 
+c
 c  maxbyte = 6*knot + 5
 c
 c  if you change nknot, be sure to change the other parameters as well
 c
-
