@@ -1,8 +1,11 @@
+MINEOS - version from Colleen Dalton, reorganised by Zach Eilon
+These codes were given to Emily Hopper in July 2019 by Z Eilon
+
 This directory contains all the tools one should need to compile and run the MINEOS
 program, including MATLAB driver scripts. MINEOS is a fortran-based code, so you will
 have to compile it on any computer on which you plan to run the code. The compilation
 makes the executables that do the calculations. In this file, we provide a step-by-step
-guide to compiling the code. 
+guide to compiling the code.
 
 In this top-level directory (where you are reading this README) you should see the
 following directories:
@@ -10,10 +13,10 @@ following directories:
 > bin    Contains the executables (it may be empty at the beginning, if you've not
          compiled anything)
 > lib    Contains the libraries (it may be empty at the beginning, if you've not made the
-         libraries yet). 
-> test   Contains a test example with output files, phase velocities, and kernels so you 
+         libraries yet).
+> test   Contains a test example with output files, phase velocities, and kernels so you
          can check you've got things working properly.
-         
+
 Note that if you prefer, you do not have to create executables and libraries in these two
 local directories, you may have system-wide bin and lib directories that you prefer to
 have everything in - that's fine, just change the "MINEOSLIB" and "MINEOSLIB" variables in
@@ -31,7 +34,7 @@ variables respectively tell the compiler the directory in which to make any libr
 then later where to look for those libraries) and the directory in which to put the
 executables. Change these in the MINEOS_paths file.
 
-To make things easier, we have assembled all the compilation scripts in the MAKEALL.bash file. Simply run this file from this directory (type "./MAKEALL.bash" in your command line). By looking carefully at this script, and exploring the src folder and its subfolders, you should be able to understand how each of the many executables and libraries that constitute the whole MINEOS package are compiled. 
+To make things easier, we have assembled all the compilation scripts in the MAKEALL.bash file. Simply run this file from this directory (type "./MAKEALL.bash" in your command line). By looking carefully at this script, and exploring the src folder and its subfolders, you should be able to understand how each of the many executables and libraries that constitute the whole MINEOS package are compiled.
 
 =================================  Using MINEOS  ===================================
 
@@ -61,7 +64,7 @@ Here is an example workflow (also see tst.exe in the test folder):
 7. Run mineos_table
     > table_file_name (to be output)
     > max. number of knots (default is “40000”_
-    > frequencies (min max, in mHz, default is “0 200.1") 
+    > frequencies (min max, in mHz, default is “0 200.1")
     > angular orders to do (default is “0 3000")
     > phV_file_name (input, calculated above)
     > strip_file_name (input, calculated above)
@@ -91,8 +94,7 @@ Here is an example workflow (also see tst.exe in the test folder):
     > gvfrechet_file (to be output)
 -----For both phase and group velocities:
 10. Run draw_frechet_gv to actually write the kernels out as a function of depth.
-    > ?vfrechet_file (input, calculated above - use gvfrechet or cvfrechet files, not the 
+    > ?vfrechet_file (input, calculated above - use gvfrechet or cvfrechet files, not the
     	plain old frechet output calculated as an intermediate for the group velocities)
-    > kernel_file (to be output)    
+    > kernel_file (to be output)
     > period (must be integer)
-    
